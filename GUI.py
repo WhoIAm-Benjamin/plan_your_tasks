@@ -33,13 +33,39 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         time = QtCore.QDateTime.currentDateTime()
         self.timeAndDate.setDateTime(time)
 
-    def show_menu(self):
+
+class ContextMenuWidget(QtWidgets.QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+        self.customContextMenuRequested.connect(self.show_menu)
+        # self.custom_menu()
+
+        self.menu = QtWidgets.QMenu(self)
+        clear = self.menu.addAction('Удалить')
+        change = self.menu.addAction('Изменить')
+        clear.triggered.connect(self.clear_table)
+        change.triggered.connect(self.change_table)
+
+    def show_menu(self, point):
+        self.menu.exec(self.mapToGlobal(point))
+
+    def clear_table(self):
         pass
+
+    def change_table(self):
+        pass
+
+
 
 
 def main():
     app = QtWidgets.QApplication() # новый экземпляр QApplication
     window = ExampleApp() # новый  объект класса ExampleApp
+    # context_menu = ContextMenuWidget()
+    # context_menu.resize(400, 400)
+    # context_menu.se()
     window.show() # показываем окно
     app.exec_() # запускаем приложение
 
