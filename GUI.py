@@ -10,7 +10,17 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.setupUi(self) # инициализация интерфейса
         self.addButton.clicked.connect(self.adding) # кнопка добавления
         self.clearButton.clicked.connect(self.clear_space) # кнопка удаления
-        self.customContextMenuRequested.connect(self.show_menu) # контекстное меню
+        self.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+
+        self.menu = QtWidgets.QMenu(self)
+        self.menu.setGeometry(QtCore.QRect(16, 229, 525, 227))
+        change = self.menu.addAction('Изменить')
+        clear = self.menu.addAction('Удалить')
+        self.customContextMenuRequested.connect(self.show_menu)
+        # clear.triggered.connect(self.clear_table)
+        # change.triggered.connect(self.change_table)
+        clear.triggered.connect(lambda: QtWidgets.QMessageBox.information(self, 'Info', 'Очистка'))
+        change.triggered.connect(lambda: QtWidgets.QMessageBox.information(self, 'Info', 'Добавление'))
 
     # noinspection PyArgumentList
     def adding(self):
@@ -33,23 +43,8 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         time = QtCore.QDateTime.currentDateTime()
         self.timeAndDate.setDateTime(time)
 
-
-class ContextMenuWidget(QtWidgets.QMainWindow):
-    def __init__(self):
-        super().__init__()
-
-        self.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
-        self.customContextMenuRequested.connect(self.show_menu)
-        # self.custom_menu()
-
-        self.menu = QtWidgets.QMenu(self)
-        clear = self.menu.addAction('Удалить')
-        change = self.menu.addAction('Изменить')
-        clear.triggered.connect(self.clear_table)
-        change.triggered.connect(self.change_table)
-
     def show_menu(self, point):
-        self.menu.exec(self.mapToGlobal(point))
+        self.menu.exec_(self.mapToGlobal(point))
 
     def clear_table(self):
         pass
@@ -57,15 +52,9 @@ class ContextMenuWidget(QtWidgets.QMainWindow):
     def change_table(self):
         pass
 
-
-
-
 def main():
     app = QtWidgets.QApplication() # новый экземпляр QApplication
     window = ExampleApp() # новый  объект класса ExampleApp
-    # context_menu = ContextMenuWidget()
-    # context_menu.resize(400, 400)
-    # context_menu.se()
     window.show() # показываем окно
     app.exec_() # запускаем приложение
 
