@@ -27,10 +27,14 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         else:
             pass
 
+    # noinspection PyArgumentList
     def clear_space(self):
         self.nameEvent.setText('')
         time = QtCore.QDateTime.currentDateTime()
         self.timeAndDate.setDateTime(time)
+
+    def show_menu(self):
+        pass
 
 
 def main():
