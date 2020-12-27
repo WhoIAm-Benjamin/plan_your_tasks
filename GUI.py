@@ -1,4 +1,4 @@
-from PySide2 import QtWidgets, QtCore
+from PySide2 import QtWidgets, QtCore, QtGui
 import design
 
 
@@ -10,13 +10,13 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         self.setupUi(self) # инициализация интерфейса
         self.addButton.clicked.connect(self.adding) # кнопка добавления
         self.clearButton.clicked.connect(self.clear_space) # кнопка удаления
-        self.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
 
-        self.menu = QtWidgets.QMenu(self)
-        self.menu.setGeometry(QtCore.QRect(16, 229, 525, 227))
-        change = self.menu.addAction('Изменить')
-        clear = self.menu.addAction('Удалить')
-        self.customContextMenuRequested.connect(self.show_menu)
+        self.tableWidget.setContextMenuPolicy(QtCore.Qt.CustomContextMenu)
+        self.tableWidget.menu = QtWidgets.QMenu(self)
+        self.tableWidget.menu.setGeometry(QtCore.QRect(16, 229, 525, 227))
+        change = self.tableWidget.menu.addAction('Изменить')
+        clear = self.tableWidget.menu.addAction('Удалить')
+        self.tableWidget.customContextMenuRequested.connect(self.show_menu)
         # clear.triggered.connect(self.clear_table)
         # change.triggered.connect(self.change_table)
         clear.triggered.connect(lambda: QtWidgets.QMessageBox.information(self, 'Info', 'Очистка'))
@@ -43,8 +43,9 @@ class ExampleApp(QtWidgets.QMainWindow, design.Ui_MainWindow):
         time = QtCore.QDateTime.currentDateTime()
         self.timeAndDate.setDateTime(time)
 
+    # noinspection PyBroadException
     def show_menu(self, point):
-        self.menu.exec_(self.mapToGlobal(point))
+        self.tableWidget.menu.exec_(QtGui.QCursor.pos())
 
     def clear_table(self):
         pass

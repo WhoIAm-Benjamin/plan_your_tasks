@@ -9,6 +9,8 @@
 
 # да не, нихера. Создано на PySide2
 
+#  куда впихнуть переменную run из 49 строки модуля GUI?
+
 
 from PySide2 import QtCore, QtGui, QtWidgets
 
@@ -69,8 +71,6 @@ class Ui_MainWindow(object):
         self.tableWidget.setRowCount(0)
         font = QtGui.QFont()
         font.setPointSize(18)
-        self.myList.setFont(font)
-        self.myList.setObjectName("myList")
         self.verticalScrollBar = QtWidgets.QScrollBar(self.scrollAreaWidgetContents)
         self.verticalScrollBar.setGeometry(QtCore.QRect(541, -2, 18, 270))
         self.verticalScrollBar.setOrientation(QtCore.Qt.Vertical)
